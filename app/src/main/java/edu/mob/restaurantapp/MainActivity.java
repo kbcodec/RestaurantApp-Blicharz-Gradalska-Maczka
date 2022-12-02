@@ -73,23 +73,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+
+
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
             if (acct != null) {
-                String personName = acct.getDisplayName();
-                String personGivenName = acct.getGivenName();
-                String personFamilyName = acct.getFamilyName();
-                String personEmail = acct.getEmail();
-                String personId = acct.getId();
-                Uri personPhoto = acct.getPhotoUrl();
-
-                Toast.makeText(this, "User email: " + personEmail, Toast.LENGTH_SHORT).show();
-
+                String email = acct.getEmail();
             }
-            startActivity(new Intent(MainActivity.this, SecondActivity.class));
+
+            //DATABASE ODCZYTANIE EMAILA I SPRAWDZENIE JAKA MA FUNKCJE, JEZELI NIE MA OSOBY W TABELI TO PRZENIES NA WIDOK DAN I WYSWIETL ALERT ZE NIE MA DOSTEPU
+
+
+
+            startActivity(new Intent(MainActivity.this, SQLTestActivity.class));
 
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
