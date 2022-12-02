@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">RestaurantApp</string>
     <string name="welcome_text">WITAM SERDECZNIE W NASZEJ RESTAURACJI :D</string>
+    <string name="googleBtnText">Zaloguj się za pomocą konta Google</string>
 </resources>
