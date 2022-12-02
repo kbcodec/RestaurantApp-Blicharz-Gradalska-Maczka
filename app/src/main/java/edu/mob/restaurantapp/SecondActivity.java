@@ -1,6 +1,5 @@
 package edu.mob.restaurantapp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -20,6 +19,7 @@ public class SecondActivity extends AppCompatActivity {
 
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
+
     TextView name, email;
     Button signOutBtn;
 
@@ -27,18 +27,15 @@ public class SecondActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
-
         name = findViewById(R.id.name);
         email = findViewById(R.id.email);
-        signOutBtn = findViewById(R.id.signoutBtn);
-
+        signOutBtn = findViewById(R.id.signOutBtn);
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-        gsc = GoogleSignIn.getClient(this,gso);
-
+        gsc = GoogleSignIn.getClient(this, gso);
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
-        if(acct!=null) {
+        if(acct!=null){
             String personName = acct.getDisplayName();
             String personEmail = acct.getEmail();
             name.setText(personName);
@@ -47,11 +44,10 @@ public class SecondActivity extends AppCompatActivity {
 
         signOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 signOut();
             }
         });
-
     }
 
     void signOut() {

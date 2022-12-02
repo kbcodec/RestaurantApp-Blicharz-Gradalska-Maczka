@@ -18,9 +18,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/name"
-        android:text="name"
-        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:text="name"
         android:textSize="34sp"
         />
 
@@ -28,9 +28,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/email"
-        android:text="email"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:text="email"
         android:layout_below="@id/name"
         android:textSize="24sp"
         android:textColor="@color/black"
@@ -40,8 +40,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Wyloguj się"
-        android:id="@+id/signoutBtn"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-/>
+        android:id="@+id/signOutBtn"
+        />
+
+
 </RelativeLayout>
