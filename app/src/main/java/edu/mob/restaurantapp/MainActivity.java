@@ -10,6 +10,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -21,6 +24,9 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.List;
+import java.util.Map;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
     GoogleSignInClient mGoogleSignInClient;
     private static int RC_SIGN_IN = 100;
+
+    private Button buttonListDish;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +65,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 signIn();
+            }
+        });
+
+        buttonListDish = findViewById(R.id.list_dish);
+        buttonListDish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ListItem.class);
+                startActivity(intent);
             }
         });
 
@@ -91,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 userFromDBdependsOnGoogleEmail = getUserFromDatabase(acct.getEmail());
             }
 
+            //DATABASE ODCZYTANIE EMAILA I SPRAWDZENIE JAKA MA FUNKCJE, JEZELI NIE MA OSOBY W TABELI TO PRZENIES NA WIDOK DAN I WYSWIETL ALERT ZE NIE MA DOSTEPU
 
 
             if(userFromDBdependsOnGoogleEmail == null) {
@@ -116,6 +135,25 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
+    //ListItem
+    SimpleAdapter ad;
+
+    public void GetList(View v){
+        ListView lstview = (ListView) findViewById(R.id.listDish);
+
+        List<Map<String, String>> MyDataList = null;
+        ListItem MyData = new ListItem();
+        MyDataList = MyData.getList();
+
+        String [] Fromw = {"Nazwa", "Cena", "Wegańskie", "Laktoza"};
+        int [] Tow = {R.id.Name, R.id.Price, R.id.Vegan, R.id.Lactose};
+
+        ad = new SimpleAdapter(MainActivity.this, MyDataList, R.layout.activity_list_item, Fromw, Tow); //tochange
+        lstview.setAdapter(ad);
+    }
+
 
     private User getUserFromDatabase (String googleEmail) throws SQLException {
         User dbUser = null;
