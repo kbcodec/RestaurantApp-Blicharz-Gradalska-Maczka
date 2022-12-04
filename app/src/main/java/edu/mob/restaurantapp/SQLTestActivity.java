@@ -27,6 +27,7 @@ public class SQLTestActivity extends AppCompatActivity {
     public ProgressBar progressBar;
     public Connection con;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
