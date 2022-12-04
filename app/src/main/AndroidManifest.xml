@@ -17,6 +17,20 @@
         android:theme="@style/Theme.RestaurantApp"
         tools:targetApi="31">
         <activity
+            android:name=".bossMainActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".cookMainActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".SQLTestActivity"
             android:exported="false">
             <meta-data

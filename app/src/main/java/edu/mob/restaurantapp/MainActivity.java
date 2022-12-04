@@ -2,6 +2,7 @@ package edu.mob.restaurantapp;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -17,7 +18,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -74,27 +81,77 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
 
-
+        User userFromDBdependsOnGoogleEmail = null;
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
             if (acct != null) {
-                String email = acct.getEmail();
+                userFromDBdependsOnGoogleEmail = getUserFromDatabase(acct.getEmail());
             }
 
-            //DATABASE ODCZYTANIE EMAILA I SPRAWDZENIE JAKA MA FUNKCJE, JEZELI NIE MA OSOBY W TABELI TO PRZENIES NA WIDOK DAN I WYSWIETL ALERT ZE NIE MA DOSTEPU
+
+
+            if(userFromDBdependsOnGoogleEmail == null) {
+                Toast.makeText(this, String.format("Nie znaleziono uzytkownika o adresie email: %s", acct.getEmail()), Toast.LENGTH_LONG).show();
+                mGoogleSignInClient.signOut();
+            }
+            else {
+                startActivity(new Intent(MainActivity.this, Class.forName("edu.mob.restaurantapp."+userFromDBdependsOnGoogleEmail.getPosition() + "MainActivity")));
+            }
 
 
 
-            startActivity(new Intent(MainActivity.this, SQLTestActivity.class));
+
 
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.d("Message", e.toString());
 
+        } catch (SQLException e) {
+            Log.d("Message", e.toString() + "nie utworzono uzytkownika z bazy danych na podstawie email");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
+
+    private User getUserFromDatabase (String googleEmail) throws SQLException {
+        User dbUser = null;
+        int idUser;
+        String firstName;
+        String lastName;
+        String email;
+        String position;
+
+        Connection connection;
+
+        ConnectionHelper conhc = new ConnectionHelper();
+        connection = conhc.conclass();
+
+        if(connection != null) {
+            String query = "SELECT * FROM Employees WHERE email = '" + googleEmail + "';";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+
+
+            while(resultSet.next()) {
+                idUser = resultSet.getInt(1);
+                firstName = resultSet.getString(2);
+                lastName = resultSet.getString(3);
+                email = resultSet.getString(4);
+                position = resultSet.getString(5);
+
+                dbUser = new User(idUser, firstName, lastName, email, position);
+                System.out.println(dbUser);
+            }
+            if(dbUser != null)
+                return dbUser;
+        } else {
+            Log.d("Message", "Check connection");
+        }
+        return null;
+    }
+
 }
