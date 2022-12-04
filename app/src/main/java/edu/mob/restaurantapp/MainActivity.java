@@ -24,6 +24,8 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +39,10 @@ public class MainActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     private static int RC_SIGN_IN = 100;
 
-    private Button buttonListDish;
+
+    Connection connect;
+    String ConnectionResult="";
+    Boolean isSuccess = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,16 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 signIn();
             }
         });
-
-        buttonListDish = findViewById(R.id.list_dish);
-        buttonListDish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ListItem.class);
-                startActivity(intent);
-            }
-        });
-
+        GetList(null);
     }
 
     private void signIn() {
@@ -150,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         String [] Fromw = {"Nazwa", "Cena", "Wegańskie", "Laktoza"};
         int [] Tow = {R.id.Name, R.id.Price, R.id.Vegan, R.id.Lactose};
 
-        ad = new SimpleAdapter(MainActivity.this, MyDataList, R.layout.activity_list_item, Fromw, Tow); //tochange
+        ad = new SimpleAdapter(MainActivity.this, MyDataList, R.layout.listlayouttemplate, Fromw, Tow);
         lstview.setAdapter(ad);
     }
 
@@ -191,5 +187,41 @@ public class MainActivity extends AppCompatActivity {
         }
         return null;
     }
+
+
+
+    public List<Map<String,String>> getList(){
+        List<Map<String,String>> data =null;
+        data = new ArrayList<Map<String,String>>();
+        try {
+            ConnectionHelper connectionHelper = new ConnectionHelper();
+            connect = connectionHelper.conclass();
+            if(connect !=null){
+                String query = "select * from Dishes";
+                Statement statement = connect.createStatement();
+                ResultSet resultSet = statement.executeQuery(query);
+                while (resultSet.next()){
+                    Map<String,String> dtname = new HashMap<String,String>();
+                    dtname.put("Name", resultSet.getString("nameDish"));
+                    dtname.put("Price", resultSet.getString("price"));
+                    dtname.put("Vegan", resultSet.getString("isVegan"));
+                    dtname.put("Lactose", resultSet.getString("isLactoseFree"));
+                    data.add(dtname);
+                }
+                ConnectionResult = "Success";
+                isSuccess = true;
+                connect.close();
+            }
+            else {
+                ConnectionResult = "Failed";
+            }
+        } catch (android.database.SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
 
 }
