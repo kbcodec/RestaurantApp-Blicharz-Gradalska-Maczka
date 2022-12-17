@@ -5,12 +5,15 @@ public class ChosenDish {
     private String name;
     private int isVegan;
     private int isLactoseFree;
+    private String imgUrl;
 
-    public ChosenDish(int id, String name, int isVegan, int isLactoseFree) {
+
+    public ChosenDish(int id, String name, int isVegan, int isLactoseFree, String imgUrl) {
         this.id = id;
         this.name = name;
         this.isVegan = isVegan;
         this.isLactoseFree = isLactoseFree;
+        this.imgUrl = imgUrl;
     }
 
     public ChosenDish() {
@@ -44,4 +47,6 @@ public class ChosenDish {
     public String getIsLactoseFreeString() {
         return String.valueOf(isLactoseFree);
     }
+    public String getImgUrl() {return imgUrl;}
+
 }

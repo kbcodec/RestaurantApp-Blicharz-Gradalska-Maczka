@@ -5,12 +5,14 @@ public class Dish {
     private String name;
     private int isVegan;
     private int isLactoseFree;
+    private String imgUrl;
 
-    public Dish(int id, String name, int isVegan, int isLactoseFree) {
+    public Dish(int id, String name, int isVegan, int isLactoseFree, String imgUrl) {
         this.id = id;
         this.name = name;
         this.isVegan = isVegan;
         this.isLactoseFree = isLactoseFree;
+        this.imgUrl = imgUrl;
     }
 
     public Dish() {
@@ -43,6 +45,7 @@ public class Dish {
     public String getIsLactoseFreeString() {
         return String.valueOf(isLactoseFree);
     }
+    public String getImgUrl() {return imgUrl;}
 
     @Override
     public String toString() {
@@ -51,6 +54,7 @@ public class Dish {
                 ", name='" + name + '\'' +
                 ", isVegan=" + isVegan +
                 ", isLactoseFree=" + isLactoseFree +
+                ", imgUrl=" + imgUrl +
                 '}';
     }
 }

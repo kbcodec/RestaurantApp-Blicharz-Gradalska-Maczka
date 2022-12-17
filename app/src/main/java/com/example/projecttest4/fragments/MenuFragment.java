@@ -65,7 +65,8 @@ public class MenuFragment extends Fragment implements MenuViewInterface {
                 mDishes.get(position).getId(),
                 mDishes.get(position).getName(),
                 mDishes.get(position).getIsVegan(),
-                mDishes.get(position).getIsLactoseFree()
+                mDishes.get(position).getIsLactoseFree(),
+                mDishes.get(position).getImgUrl()
         );
 
         Bundle args = new Bundle();
@@ -73,6 +74,7 @@ public class MenuFragment extends Fragment implements MenuViewInterface {
         args.putString("name", chosenDish.getName());
         args.putString("isVegan", chosenDish.getIsVeganString());
         args.putString("isLactoseFree", chosenDish.getIsLactoseFreeString());
+        args.putString("imgUrl", chosenDish.getImgUrl());
 
         DishFragment dishFragment = new DishFragment();
         dishFragment.setArguments(args);

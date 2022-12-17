@@ -18,7 +18,9 @@ public class DishService {
 
     public ArrayList<Dish> getAllDishes () throws SQLException {
         connection = restaurantConnect.connectToDB();
-        String query = "SELECT * FROM DISHES";
+        String query = "select d.dish_ID, d.nameDish, d.worthToRecommend, d.cookingNotes, d.price, d.isVegan, d.isLactoseFree, i.image_link " +
+                "from dishes d " +
+                "inner join images i on i.image_id = d.image_id;";
         Statement stmt = connection.createStatement();
         ResultSet rs = stmt.executeQuery(query);
 
@@ -28,7 +30,8 @@ public class DishService {
                     rs.getInt(1),
                     rs.getString(2),
                     rs.getInt(6),
-                    rs.getInt(7)
+                    rs.getInt(7),
+                    rs.getString(8)
             );
             listOfAllDishes.add(newDish);
         }
@@ -47,8 +50,9 @@ public class DishService {
             dish = new Dish(
                     rs.getInt(1),
                     rs.getString(2),
-                    rs.getInt(5),
-                    rs.getInt(6)
+                    rs.getInt(6),
+                    rs.getInt(7),
+                    rs.getString(8)
             );
         }
 
