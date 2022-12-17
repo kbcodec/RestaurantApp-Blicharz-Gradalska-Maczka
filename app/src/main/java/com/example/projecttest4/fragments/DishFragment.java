@@ -51,26 +51,9 @@ public class DishFragment extends Fragment {
         tvChosenDishName.setText(getArguments().getString("name"));
         tvChosenDishIsVegan.setText(getArguments().getString("isVegan"));
         tvChosenDishIsLactoseFree.setText(getArguments().getString("isLactoseFree"));
+        tvPrice.setText(getArguments().getString("price"));
 
-        if(acct != null) {
-            UserController uc = new UserController();
-            User userFetchByEmail = uc.getUser(acct.getEmail());
-            int userFetchByEmailPosition = userFetchByEmail.getPosition();
-
-            if(userFetchByEmailPosition == 2) { //COOK
-                tvCookingNotes.setText(getArguments().getString("cookingNotes"));
-                tvWorthRecommend.setText("");
-            } else if (userFetchByEmailPosition == 3) { //WAITER
-                tvWorthRecommend.setText(getArguments().getString("worthRecommend"));
-                tvCookingNotes.setText("");
-            } else if (userFetchByEmailPosition == 1) { //BOSS
-                tvWorthRecommend.setText(getArguments().getString("worthRecommend"));
-                tvCookingNotes.setText(getArguments().getString("cookingNotes"));
-            }
-        } else {
-            tvWorthRecommend.setText("");
-            tvCookingNotes.setText("");
-        }
+        adjustDishFragment(acct);
 
 
         imageView = view.findViewById(R.id.imgDish);
@@ -91,6 +74,28 @@ public class DishFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void adjustDishFragment (GoogleSignInAccount acct) {
+        if(acct != null) {
+            UserController uc = new UserController();
+            User userFetchByEmail = uc.getUser(acct.getEmail());
+            int userFetchByEmailPosition = userFetchByEmail.getPosition();
+
+            if(userFetchByEmailPosition == 2) { //COOK
+                tvCookingNotes.setText(getArguments().getString("cookingNotes"));
+                tvWorthRecommend.setText("");
+            } else if (userFetchByEmailPosition == 3) { //WAITER
+                tvWorthRecommend.setText(getArguments().getString("worthRecommend"));
+                tvCookingNotes.setText("");
+            } else if (userFetchByEmailPosition == 1) { //BOSS
+                tvWorthRecommend.setText(getArguments().getString("worthRecommend"));
+                tvCookingNotes.setText(getArguments().getString("cookingNotes"));
+            }
+        } else {
+            tvWorthRecommend.setText("");
+            tvCookingNotes.setText("");
+        }
     }
 
 }
