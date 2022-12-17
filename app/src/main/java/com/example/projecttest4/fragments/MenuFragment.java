@@ -60,10 +60,12 @@ public class MenuFragment extends Fragment implements MenuViewInterface {
 
     @Override
     public void onDishClick(int position) {
-        Toast.makeText(this.getContext(), mDishes.get(position).getIdString(), Toast.LENGTH_SHORT).show();
         chosenDish = new ChosenDish(
                 mDishes.get(position).getId(),
                 mDishes.get(position).getName(),
+                mDishes.get(position).getWorthToRecommend(),
+                mDishes.get(position).getCookingNotes(),
+                mDishes.get(position).getPrice(),
                 mDishes.get(position).getIsVegan(),
                 mDishes.get(position).getIsLactoseFree(),
                 mDishes.get(position).getImgUrl()
@@ -72,6 +74,9 @@ public class MenuFragment extends Fragment implements MenuViewInterface {
         Bundle args = new Bundle();
         args.putString("id", chosenDish.getIdString());
         args.putString("name", chosenDish.getName());
+        args.putString("worthRecommend", chosenDish.getWorthToRecommend());
+        args.putString("cookingNotes", chosenDish.getCookingNotes());
+        args.putString("price", chosenDish.getPriceString());
         args.putString("isVegan", chosenDish.getIsVeganString());
         args.putString("isLactoseFree", chosenDish.getIsLactoseFreeString());
         args.putString("imgUrl", chosenDish.getImgUrl());
