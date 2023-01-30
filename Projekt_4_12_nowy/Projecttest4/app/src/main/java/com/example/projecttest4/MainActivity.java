@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
             binding.bottomNavigationView.setVisibility(View.VISIBLE);
 
 
-            Toast.makeText(this, String.format("Cześć, owocnej pracy %s", acct.getGivenName()), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, String.format("Witaj, owocnej pracy %s", acct.getGivenName()), Toast.LENGTH_LONG).show();
         }
 
 
