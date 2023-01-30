@@ -5,7 +5,7 @@
     android:id="@+id/menuContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/button"
+    android:background="@drawable/dish_menu_background"
     tools:context=".fragments.MenuFragment">
 
     <androidx.recyclerview.widget.RecyclerView

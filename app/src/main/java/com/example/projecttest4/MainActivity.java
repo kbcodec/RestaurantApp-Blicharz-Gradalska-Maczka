@@ -41,10 +41,6 @@ public class MainActivity extends AppCompatActivity {
     SignInButton signInButton;
     Button logOutBtn;
 
-    Connection connect;
-    String ConnectionResult = "";
-    Boolean isSuccess = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,30 +95,17 @@ public class MainActivity extends AppCompatActivity {
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         logOutBtn = findViewById(R.id.signOutBtn);
 
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signIn();
-            }
-        });
+        signInButton.setOnClickListener(v -> signIn());
 
-        logOutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signOut();
-            }
-        });
+        logOutBtn.setOnClickListener(v -> signOut());
 
     }
 
     private void signOut() {
-        mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(Task<Void> task) {
-                finish();
-                startActivity(new Intent(MainActivity.this, MainActivity.class));
+        mGoogleSignInClient.signOut().addOnCompleteListener(task -> {
+            finish();
+            startActivity(new Intent(MainActivity.this, MainActivity.class));
 
-            }
         });
     }
 
@@ -155,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
             logo2.setVisibility(View.VISIBLE);
 
             binding.bottomNavigationView.setVisibility(View.VISIBLE);
+            signInButton.setVisibility(View.GONE);
 
 
             Toast.makeText(this, String.format("Cześć, owocnej pracy %s", acct.getGivenName()), Toast.LENGTH_LONG).show();

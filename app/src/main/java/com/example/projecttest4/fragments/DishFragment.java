@@ -2,17 +2,18 @@ package com.example.projecttest4.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.example.projecttest4.R;
@@ -26,8 +27,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 public class DishFragment extends Fragment {
 
     @Nullable
-    TextView tvChosenDishId, tvChosenDishName, tvWorthRecommend, tvCookingNotes, tvPrice, tvChosenDishIsVegan, tvChosenDishIsLactoseFree;
-    ImageView imageView;
+    TextView tvChosenDishName, tvWorthRecommend, tvCookingNotes, tvPrice;
+    ImageView imageView, ivLactoseFreeDish, ivIsVeganDish;
     Button backBtn;
 
     GoogleSignInOptions gso;
@@ -39,19 +40,24 @@ public class DishFragment extends Fragment {
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(view.getContext());
 
-        tvChosenDishId = view.findViewById(R.id.tvChosenDishId);
+        ScrollView scrollView = view.findViewById(R.id.scrollViewDescribe);
+        scrollView.bringToFront();
+
         tvChosenDishName = view.findViewById(R.id.tvChosenDishName);
         tvWorthRecommend = view.findViewById(R.id.tvRecommend);
         tvCookingNotes = view.findViewById(R.id.tvCookingNotes);
         tvPrice = view.findViewById(R.id.tvPrice);
-        tvChosenDishIsVegan = view.findViewById(R.id.tvChosenDishIsVegan);
-        tvChosenDishIsLactoseFree = view.findViewById(R.id.tvChosenDishIsLactoseFree);
+        ivLactoseFreeDish = view.findViewById(R.id.ivLactoseFreeDish);
+        ivIsVeganDish = view.findViewById(R.id.ivIsVeganDish);
 
-        tvChosenDishId.setText(getArguments().getString("id"));
         tvChosenDishName.setText(getArguments().getString("name"));
-        tvChosenDishIsVegan.setText(getArguments().getString("isVegan"));
-        tvChosenDishIsLactoseFree.setText(getArguments().getString("isLactoseFree"));
-        tvPrice.setText(getArguments().getString("price"));
+        tvPrice.setText(getArguments().getString("price") + " zł");
+        if(getArguments().getString("isVegan").equals("1")) {
+            ivIsVeganDish.setImageResource(R.drawable.vegan_icon);
+        }
+        if(getArguments().getString("isLactoseFree").equals("1")) {
+            ivLactoseFreeDish.setImageResource(R.drawable.lactose_icon);
+        }
 
         adjustDishFragment(acct);
 
@@ -62,15 +68,12 @@ public class DishFragment extends Fragment {
 
         backBtn = view.findViewById(R.id.backBtn);
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MenuFragment menuFragment = new MenuFragment();
+        backBtn.setOnClickListener(v -> {
+            MenuFragment menuFragment = new MenuFragment();
 
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.dishContainer, menuFragment);
-                fragmentTransaction.commit();
-            }
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.dishContainer, menuFragment);
+            fragmentTransaction.commit();
         });
 
         return view;

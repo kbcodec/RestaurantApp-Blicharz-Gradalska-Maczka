@@ -1,18 +1,34 @@
 package com.example.projecttest4.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
+import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.projecttest4.MenuViewInterface;
 import com.example.projecttest4.R;
 import com.example.projecttest4.models.Dish;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class DishAdapter extends RecyclerView.Adapter<DishAdapter.ViewHolder> {
@@ -40,10 +56,13 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull DishAdapter.ViewHolder holder, int position) {
-        holder.tvDishId.setText(mDishes.get(position).getIdString());
         holder.tvDishName.setText(mDishes.get(position).getName());
-        holder.tvDishIsVegan.setText(mDishes.get(position).getIsVeganString());
-        holder.tvDishIsLactoseFree.setText(mDishes.get(position).getIsLactoseFreeString());
+        if(mDishes.get(position).getIsLactoseFree() == 1) {
+            holder.ivLactoseFree.setImageResource(R.drawable.lactose_icon);
+        }
+        if(mDishes.get(position).getIsVegan() == 1) {
+            holder.ivIsVegan.setImageResource(R.drawable.vegan_icon);
+        }
     }
 
     @Override
@@ -53,30 +72,29 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView tvDishId;
         public TextView tvDishName;
-        public TextView tvDishIsVegan;
-        public TextView tvDishIsLactoseFree;
+        public ImageView ivLactoseFree;
+        public ImageView ivIsVegan;
+        public LinearLayout llDish;
 
         public ViewHolder(@NonNull View itemView, MenuViewInterface menuViewInterface) {
             super(itemView);
-            tvDishId = itemView.findViewById(R.id.tvDishId);
             tvDishName = itemView.findViewById(R.id.tvDishName);
-            tvDishIsVegan = itemView.findViewById(R.id.tvDishIsVegan);
-            tvDishIsLactoseFree = itemView.findViewById(R.id.tvDishIsLactoseFree);
+            ivLactoseFree = itemView.findViewById(R.id.ivLactoseFree);
+            ivIsVegan = itemView.findViewById(R.id.ivIsVegan);
+            llDish = itemView.findViewById(R.id.linearDishLayout);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(menuViewInterface != null) {
-                        int position = getAdapterPosition();
 
-                        if(position != RecyclerView.NO_POSITION) {
-                            menuViewInterface.onDishClick(position);
-                        }
+            itemView.setOnClickListener(v -> {
+                if(menuViewInterface != null) {
+                    int position = getAdapterPosition();
+
+                    if(position != RecyclerView.NO_POSITION) {
+                        menuViewInterface.onDishClick(position);
                     }
                 }
             });
         }
     }
+
 }
