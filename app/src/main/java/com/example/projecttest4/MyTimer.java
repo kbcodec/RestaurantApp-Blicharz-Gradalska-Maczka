@@ -7,7 +7,6 @@ import android.view.View;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -17,9 +16,11 @@ public class MyTimer {
     private MyTimer.TimerRuning timerRuningListener;
     private int remainingSec, startSec;
     public boolean isRunning;
-    GoogleSignInOptions gso;
-    GoogleSignInAccount lastAcct;
-    GoogleSignInAccount acct;
+
+
+
+
+    //int seconds;
 
 
     private static final String TAG = "MyTimer";
@@ -28,6 +29,7 @@ public class MyTimer {
     private static final MyTimer ourInstance = new MyTimer();
 
     public static MyTimer getInstance() {
+
         return ourInstance;
     }
 
@@ -54,33 +56,32 @@ public class MyTimer {
     };
 
 
-    public void startTimer(final int seconds, View view) {
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-        acct = GoogleSignIn.getLastSignedInAccount(view.getContext());
+    public void startTimer(View view) {
 
         startSec = 0;
-
-        remainingSec = seconds;
+        remainingSec = 45000;
         timer = new Timer();
 
         timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println("Aktualnie zalogowany" + acct.getEmail());
-                isRunning = true;
-                Message message = Message.obtain();
-                int[] counters = new int[2];
-                counters[0] = remainingSec;
-                counters[1] = startSec;
-                message.obj = counters;
-                message.setTarget(mHandler);
-                mHandler.sendMessage(message);
-                startSec++;
+                @Override
+                public void run() {
+                    Log.i(TAG, "Timer running......");
+                    isRunning = true;
+                    Message message = Message.obtain();
+                    int[] counters = new int[2];
+                    counters[0] = remainingSec;
+                    counters[1] = startSec;
+                    message.obj = counters;
+                    message.setTarget(mHandler);
+                    mHandler.sendMessage(message);
+                    startSec++;
+                    if (GoogleSignIn.getLastSignedInAccount(view.getContext()) == null){
+                        timer.cancel();
+                    }
 
 
-            }
-        }, 100, 1000);
-
+                }
+            }, 100, 1000);
 
     }
 
@@ -114,9 +115,5 @@ public class MyTimer {
             isRunning = false;
             timer.cancel();
         }
-    }
-
-    public GoogleSignInAccount isTheSameUserAsBefore() {
-        return acct;
     }
 }

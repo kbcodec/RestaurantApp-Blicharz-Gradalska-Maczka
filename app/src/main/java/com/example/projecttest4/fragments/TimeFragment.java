@@ -13,44 +13,51 @@ import android.widget.TextView;
 
 import com.example.projecttest4.MyTimer;
 import com.example.projecttest4.R;
+import com.example.projecttest4.controllers.UserController;
+import com.example.projecttest4.models.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.GoogleApiAvailabilityLight;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.sql.SQLOutput;
 import java.util.Locale;
+import java.util.Timer;
 
 
 public class TimeFragment extends Fragment implements MyTimer.TimerRuning{
 
+    private int seconds;
+    private boolean running;
+    private boolean wasRunning;
+
     private FloatingActionButton start;
     private FloatingActionButton stop;
     private TextView timeView;
-    GoogleSignInOptions gso;
-    GoogleSignInAccount lastAcct;
+    private Handler handler;
+
+    //account
+    GoogleSignInAccount previousAccount;
+    GoogleSignInAccount currentAccount;
+    private static boolean isFirstRun = true;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        MyTimer.getInstance().setTimerRuningListener(this);
+
         View view = inflater.inflate(R.layout.fragment_time, container, false);
         timeView = view.findViewById(R.id.timeView);
-
         start = view.findViewById(R.id.start);
         stop = view.findViewById(R.id.stop);
 
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(view.getContext());
+        currentAccount  = GoogleSignIn.getLastSignedInAccount(view.getContext());
+        System.out.println(currentAccount.getEmail());
 
-        lastAcct = MyTimer.getInstance().isTheSameUserAsBefore();
-        if(lastAcct != null && acct != lastAcct) {
-            MyTimer.getInstance().stopTimer();
-        }
 
+
+        MyTimer.getInstance().setTimerRuningListener(this);
 
         if (savedInstanceState != null) {
-
             savedInstanceState.getInt("seconds");
             savedInstanceState.getBoolean("running");
             savedInstanceState.getBoolean("wasRunning");
@@ -59,7 +66,7 @@ public class TimeFragment extends Fragment implements MyTimer.TimerRuning{
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyTimer.getInstance().startTimer(10, view);
+                MyTimer.getInstance().startTimer(view);
             }
         });
 
@@ -69,17 +76,21 @@ public class TimeFragment extends Fragment implements MyTimer.TimerRuning{
                 MyTimer.getInstance().stopTimer();
             }
         });
+
         return view;
     }
+
 
     @Override
     public void onPause() {
         super.onPause();
+        previousAccount = currentAccount;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        System.out.println("ON RESUMEEEEEEEEEEE");
     }
 
     @Override
@@ -92,11 +103,12 @@ public class TimeFragment extends Fragment implements MyTimer.TimerRuning{
     @Override
     public void onTimerChange(String remainSec, String startSec) {
         timeView.setText(startSec);
-
     }
 
     @Override
     public void onTimerStopped(String remainSec, String startSec) {
         timeView.setText(startSec);
     }
+
+
 }
