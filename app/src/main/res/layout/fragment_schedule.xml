@@ -16,36 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="190dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView5" />
-
-            <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="281dp"
-                android:layout_height="136dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="114dp"
-                android:src="@drawable/schedule2"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.008" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
@@ -63,8 +33,8 @@
 
             <TextView
                 android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="145dp"
+                android:layout_height="30dp"
                 android:layout_marginStart="35dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="sans-serif-light"
@@ -93,32 +63,18 @@
                 app:layout_constraintVertical_bias="0.0"
                 tools:ignore="SpeakableTextPresentCheck" />
 
-            <EditText
-                android:id="@+id/chooseDateTextField"
-                android:layout_width="152dp"
-                android:layout_height="41dp"
-                android:layout_marginStart="43dp"
-                android:layout_marginTop="10dp"
-                android:ems="10"
-                android:inputType="date"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/chooseDateButton"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4"
-                app:layout_constraintVertical_bias="0.0"
-                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
             <ImageButton
                 android:id="@+id/chooseDateButton"
                 android:layout_width="35dp"
                 android:layout_height="33dp"
                 android:layout_marginStart="3dp"
+                android:layout_marginTop="152dp"
                 android:layout_marginEnd="181dp"
                 android:background="@drawable/roundedbutton"
                 android:backgroundTint="#004B83"
                 android:src="@drawable/schedule7"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/textView2"
                 app:layout_constraintTop_toBottomOf="@id/imageView4"
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
@@ -147,6 +103,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="180dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView2"
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
@@ -192,6 +149,53 @@
                 app:layout_constraintTop_toBottomOf="@+id/chooseShiftSpinner"
                 app:layout_constraintVertical_bias="0.0" />
 
+            <TextView
+                android:id="@+id/chooseDateTf"
+                android:layout_width="146dp"
+                android:layout_height="34dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="14dp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:text="Wybierz datę"
+                android:textColor="#004B83"
+                android:textSize="18sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toStartOf="@+id/chooseDateButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="190dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="281dp"
+                android:layout_height="136dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="114dp"
+                android:src="@drawable/schedule2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.008" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ViewFlipper>

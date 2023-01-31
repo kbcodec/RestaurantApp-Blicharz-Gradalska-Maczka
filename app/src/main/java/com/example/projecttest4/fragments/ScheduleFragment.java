@@ -9,19 +9,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.example.projecttest4.R;
+import com.example.projecttest4.controllers.ScheduleController;
+import com.example.projecttest4.controllers.ScheduleEmployeeController;
 import com.example.projecttest4.controllers.ShiftsTypesController;
 import com.example.projecttest4.controllers.UserController;
 import com.example.projecttest4.models.ShiftTypes;
 import com.example.projecttest4.models.User;
+import com.example.projecttest4.services.ScheduleEmployeeService;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,6 +36,13 @@ import java.util.Calendar;
 public class ScheduleFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
     private ImageButton calendarDialogButton;
+    private TextView chosenDate;
+    private Spinner chooseWorkerSpinner;
+    private Spinner chooseShiftSpinner;
+    private Button addToScheduleButton;
+    private Date date;
+    private int userId;
+
 
 
     public ScheduleFragment() {
@@ -50,6 +64,10 @@ public class ScheduleFragment extends Fragment implements DatePickerDialog.OnDat
         ViewFlipper viewFlipper = view.findViewById(R.id.change_view);
 
         calendarDialogButton = view.findViewById(R.id.chooseDateButton);
+        chosenDate = view.findViewById(R.id.chooseDateTf);
+        chooseWorkerSpinner = view.findViewById(R.id.chooseWorkerSpinner);
+        chooseShiftSpinner = view.findViewById(R.id.chooseShiftSpinner);
+        addToScheduleButton = view.findViewById(R.id.addToScheduleButton);
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(view.getContext());
 
@@ -82,12 +100,22 @@ public class ScheduleFragment extends Fragment implements DatePickerDialog.OnDat
         adapterShifts.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chooseShiftSpinner.setAdapter(adapterShifts);
 
-        calendarDialogButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog(v);
+        calendarDialogButton.setOnClickListener(v -> showDatePickerDialog(v));
+
+        addToScheduleButton.setOnClickListener(v -> {
+            ScheduleController sc = new ScheduleController();
+            ScheduleEmployeeController sec = new ScheduleEmployeeController();
+            User u = new UserController().getUser(String.valueOf(chooseWorkerSpinner.getSelectedItem()));
+            if(date != null && chooseShiftSpinner.getSelectedItemPosition() != -1 && chooseWorkerSpinner.getSelectedItemPosition() != -1)
+            {
+                sc.addSchedule(date, chooseShiftSpinner.getSelectedItemPosition()+1);
+                sec.addScheduleEmployee(sc.getLastId(), u.getId());
+                Toast.makeText(view.getContext(), "Udało się dodać zmianę", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(view.getContext(), "Wybierz wszystkie pola", Toast.LENGTH_LONG).show();
             }
         });
+
 
         return view;
     }
@@ -105,8 +133,9 @@ public class ScheduleFragment extends Fragment implements DatePickerDialog.OnDat
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String date = "day/month/year" + dayOfMonth + "/" + month + "/" + year;
-        System.out.println(date);
+        String dateString = year + "-" + month + 1 + "-" + dayOfMonth;
+        date = Date.valueOf(dateString);
+        chosenDate.setText(dateString);
     }
 
 
@@ -114,6 +143,7 @@ public class ScheduleFragment extends Fragment implements DatePickerDialog.OnDat
     private int adjustScheduleFragment (GoogleSignInAccount acct) {
         UserController uc = new UserController();
         User userFetchByEmail = uc.getUser(acct.getEmail());
+        userId = userFetchByEmail.getId();
         int userFetchByEmailPosition = userFetchByEmail.getPosition();
 
         int userPosition = 0;
