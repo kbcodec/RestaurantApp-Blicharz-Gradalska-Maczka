@@ -1,5 +1,6 @@
 package com.example.projecttest4.fragments;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.ViewFlipper;
 
@@ -21,8 +24,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
-public class ScheduleFragment extends Fragment {
+public class ScheduleFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
+
+    private ImageButton calendarDialogButton;
 
 
     public ScheduleFragment() {
@@ -42,6 +48,8 @@ public class ScheduleFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
         ViewFlipper viewFlipper = view.findViewById(R.id.change_view);
+
+        calendarDialogButton = view.findViewById(R.id.chooseDateButton);
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(view.getContext());
 
@@ -74,8 +82,34 @@ public class ScheduleFragment extends Fragment {
         adapterShifts.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chooseShiftSpinner.setAdapter(adapterShifts);
 
+        calendarDialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(v);
+            }
+        });
+
         return view;
     }
+
+    private void showDatePickerDialog(View v) {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                v.getContext(),
+                this,
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        );
+        datePickerDialog.show();
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        String date = "day/month/year" + dayOfMonth + "/" + month + "/" + year;
+        System.out.println(date);
+    }
+
+
 
     private int adjustScheduleFragment (GoogleSignInAccount acct) {
         UserController uc = new UserController();
@@ -117,6 +151,7 @@ public class ScheduleFragment extends Fragment {
 
         return shifts;
     }
+
 
 
 }

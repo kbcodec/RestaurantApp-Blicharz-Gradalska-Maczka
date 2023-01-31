@@ -113,16 +113,14 @@
                 android:id="@+id/chooseDateButton"
                 android:layout_width="35dp"
                 android:layout_height="33dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="432dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="181dp"
                 android:background="@drawable/roundedbutton"
                 android:backgroundTint="#004B83"
                 android:src="@drawable/schedule7"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/chooseShiftSpinner"
-                app:layout_constraintStart_toEndOf="@+id/chooseDateTextField"
-                app:layout_constraintTop_toBottomOf="@+id/textView4"
-                app:layout_constraintVertical_bias="1.0"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@id/imageView4"
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             <TextView
