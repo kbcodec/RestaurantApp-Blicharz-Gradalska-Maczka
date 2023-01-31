@@ -17,7 +17,7 @@ public class UserService {
     private Connection connection;
     private DBRestaurantConnect restaurantConnect = new DBRestaurantConnect();
 
-    public ArrayList<User> getAllUsers () throws SQLException {
+    public ArrayList<User> getAllUsers() throws SQLException {
         connection = restaurantConnect.connectToDB();
         String query = "SELECT * FROM EMPLOYEES";
         Statement stmt = connection.createStatement();
@@ -58,4 +58,5 @@ public class UserService {
 
         return user;
     }
+
 }
