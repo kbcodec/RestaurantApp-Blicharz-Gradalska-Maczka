@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import com.example.projecttest4.MyTimer;
 import com.example.projecttest4.R;
 import com.example.projecttest4.controllers.TimeController;
+import com.example.projecttest4.controllers.UserController;
+import com.example.projecttest4.models.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -46,9 +48,6 @@ public class TimeFragment extends Fragment implements MyTimer.TimerRuning{
         stop = view.findViewById(R.id.stop);
 
         currentAccount  = GoogleSignIn.getLastSignedInAccount(view.getContext());
-        System.out.println(currentAccount.getEmail());
-
-
 
         MyTimer.getInstance().setTimerRuningListener(this);
 
@@ -69,9 +68,15 @@ public class TimeFragment extends Fragment implements MyTimer.TimerRuning{
             @Override
             public void onClick(View view) {
                 String timeSaving = String.valueOf(timeView.getText());
-                MyTimer.getInstance().stopTimer();
+                currentAccount  = GoogleSignIn.getLastSignedInAccount(view.getContext());
+                User user = new UserController().getUser(currentAccount.getEmail());
+
+
                 TimeController timeToAdd = new TimeController();
-                timeToAdd.setTime(timeSaving);
+                int last_id = timeToAdd.getLastId();
+                timeToAdd.setEmployment(last_id, user.getId());
+                MyTimer.getInstance().stopTimer();
+
             }
         });
 
