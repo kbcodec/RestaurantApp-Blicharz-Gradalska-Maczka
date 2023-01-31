@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
+import androidx.fragment.app.Fragment;
 
 import com.example.projecttest4.databinding.ActivityMainBinding;
 import com.example.projecttest4.fragments.MenuFragment;
@@ -35,12 +37,11 @@ import java.sql.Connection;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
-
     GoogleSignInClient mGoogleSignInClient;
     private static int RC_SIGN_IN = 100;
     SignInButton signInButton;
     Button logOutBtn;
-
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     private void signOut() {
         mGoogleSignInClient.signOut().addOnCompleteListener(task -> {
             finish();
@@ -156,5 +158,6 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, fragment);
         fragmentTransaction.commit();
+        fragmentManager.executePendingTransactions();
     }
 }

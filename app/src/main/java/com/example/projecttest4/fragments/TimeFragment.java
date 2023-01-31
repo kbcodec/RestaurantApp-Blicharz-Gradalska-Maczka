@@ -11,13 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.projecttest4.MyTimer;
 import com.example.projecttest4.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Locale;
 
 
-public class TimeFragment extends Fragment {
+public class TimeFragment extends Fragment implements MyTimer.TimerRuning{
 
     private int seconds;
     private boolean running;
@@ -32,36 +33,14 @@ public class TimeFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
 
+
     private String mParam1;
     private String mParam2;
-
-    public TimeFragment() {
-    }
-
-    public static TimeFragment newInstance(String param1, String param2) {
-        TimeFragment fragment = new TimeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-////        if (getArguments() != null) {
-////            mParam1 = getArguments().getString(ARG_PARAM1);
-////            mParam2 = getArguments().getString(ARG_PARAM2);
-////        }
-//
-//
-//
-//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        MyTimer.getInstance().setTimerRuningListener(this);
         View view = inflater.inflate(R.layout.fragment_time, container, false);
         timeView = view.findViewById(R.id.timeView);
 
@@ -70,24 +49,23 @@ public class TimeFragment extends Fragment {
 
 
         if (savedInstanceState != null) {
+
             savedInstanceState.getInt("seconds");
             savedInstanceState.getBoolean("running");
             savedInstanceState.getBoolean("wasRunning");
         }
 
-        runTimer();
-
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                running = true;
+                MyTimer.getInstance().startTimer(10);
             }
         });
 
         stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                running = false;
+                MyTimer.getInstance().stopTimer();
             }
         });
 
@@ -111,50 +89,28 @@ public class TimeFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        wasRunning = running;
-        running = false;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if(wasRunning){
-            running = true;
-        }
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putInt("seconds", seconds);
-        outState.putBoolean("running", running);
-        outState.putBoolean("wasRunning", wasRunning);
     }
 
-    private void runTimer() {
 
-        handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                int hours = seconds / 3600;
-                int minutes = (seconds % 3600) / 60;
-                int secs = seconds % 60;
+    @Override
+    public void onTimerChange(String remainSec, String startSec) {
+        timeView.setText(startSec);
 
-                String time = String.format(Locale.getDefault(),
-                        "%d:%02d:%02d", hours, minutes, secs);
-
-                timeView.setText(time);
-                System.out.println(time);
-
-                if(running){
-                    seconds++;
-                }
-                handler.postDelayed(this, 1000);
-
-            }
-        });
     }
 
+    @Override
+    public void onTimerStopped(String remainSec, String startSec) {
+        timeView.setText(startSec);
+    }
 }
