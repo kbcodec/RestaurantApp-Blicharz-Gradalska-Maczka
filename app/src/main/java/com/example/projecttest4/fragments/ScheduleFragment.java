@@ -35,7 +35,7 @@ public class ScheduleFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
         ViewFlipper viewFlipper = view.findViewById(R.id.change_view);
         //View childView = viewFlipper.getChildAt(1);
-        viewFlipper.setDisplayedChild(0);
+//        viewFlipper.setDisplayedChild(0);
 
 
 
