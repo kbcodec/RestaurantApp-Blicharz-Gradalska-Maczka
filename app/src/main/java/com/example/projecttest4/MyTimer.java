@@ -94,8 +94,7 @@ public class MyTimer {
      */
     public String createDateFormat(int seconds) {
 
-        return String.format("%02d:%02d", (seconds % 3600) / 60, (seconds % 60));
-
+        return String.format("%02d:%02d:%02d", seconds / 3600, (seconds % 3600) / 60, seconds % 60);
     }
 
     public void setTimerRuningListener(MyTimer.TimerRuning timerRuningListener) {

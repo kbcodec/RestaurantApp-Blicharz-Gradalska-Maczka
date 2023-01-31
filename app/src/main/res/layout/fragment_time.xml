@@ -33,6 +33,7 @@
         app:layout_constraintEnd_toStartOf="@+id/stop"
         app:layout_constraintStart_toStartOf="parent" />
 
+
     <TextView
         android:id="@+id/timeView"
         android:layout_width="261dp"

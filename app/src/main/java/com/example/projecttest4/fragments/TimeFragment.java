@@ -1,27 +1,21 @@
 package com.example.projecttest4.fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import com.example.projecttest4.MyTimer;
 import com.example.projecttest4.R;
-import com.example.projecttest4.controllers.UserController;
-import com.example.projecttest4.models.User;
+import com.example.projecttest4.controllers.TimeController;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.sql.SQLOutput;
-import java.util.Locale;
-import java.util.Timer;
 
 
 public class TimeFragment extends Fragment implements MyTimer.TimerRuning{
@@ -32,6 +26,7 @@ public class TimeFragment extends Fragment implements MyTimer.TimerRuning{
 
     private FloatingActionButton start;
     private FloatingActionButton stop;
+    private FloatingActionButton save;
     private TextView timeView;
     private Handler handler;
 
@@ -73,9 +68,13 @@ public class TimeFragment extends Fragment implements MyTimer.TimerRuning{
         stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String timeSaving = String.valueOf(timeView.getText());
                 MyTimer.getInstance().stopTimer();
+                TimeController timeToAdd = new TimeController();
+                timeToAdd.setTime(timeSaving);
             }
         });
+
 
         return view;
     }
@@ -90,13 +89,11 @@ public class TimeFragment extends Fragment implements MyTimer.TimerRuning{
     @Override
     public void onResume() {
         super.onResume();
-        System.out.println("ON RESUMEEEEEEEEEEE");
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-
     }
 
 
@@ -109,6 +106,7 @@ public class TimeFragment extends Fragment implements MyTimer.TimerRuning{
     public void onTimerStopped(String remainSec, String startSec) {
         timeView.setText(startSec);
     }
+
 
 
 }
