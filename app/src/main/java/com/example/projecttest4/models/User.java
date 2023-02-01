@@ -1,5 +1,9 @@
 package com.example.projecttest4.models;
 
+/**
+ * Klasa to model danych, który odwzorowuje table User z bazy danych
+ * Posiada pola dla wszystkich kolumn w tej tabeli
+ */
 public class User {
     private int id;
     private String firstName;

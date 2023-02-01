@@ -24,6 +24,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 
+/*
+ * Klasa ta jest fragmentem i reprezentuje ekran szczegółów dania w aplikacji.
+ * Zawiera informacje takie jak nazwa dania, cena, czy jest wegańskie i bezlaktozowe,
+ * a także notatki kucharskie i rekomendację dla kelnera
+ * (jeśli użytkownik jest kelnerem lub szefem kuchni).
+ */
+
 public class DishFragment extends Fragment {
 
     @Nullable
@@ -33,6 +40,10 @@ public class DishFragment extends Fragment {
 
     GoogleSignInOptions gso;
 
+    /*
+     * Tworzy widok fragmentu po nazwie "fragment_dish". Następnie ustawiane
+     * są opcje logowania za pomocą Google i pobierana jest ostatnio zalogowana konto.
+     */
     @SuppressLint("MissingInflatedId")
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dish,container,false);
@@ -79,6 +90,10 @@ public class DishFragment extends Fragment {
         return view;
     }
 
+    /*
+        Metoda używana do dostosowywania wyświetlanych informacji na ekranie
+        w zależności od pozycji użytkownika (kelner, kucharz lub szef kuchni).
+     */
     private void adjustDishFragment (GoogleSignInAccount acct) {
         if(acct != null) {
             UserController uc = new UserController();

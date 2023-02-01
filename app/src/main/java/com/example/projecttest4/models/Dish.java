@@ -1,5 +1,10 @@
 package com.example.projecttest4.models;
 
+/**
+ * Klasa Dish jest klasą, która opisuje dane dotyczące jednego dania w menu.
+ * Ma pola przechowujące informacje takie jak ID, nazwę, informację, czy warto polecić dane danie, notatki dotyczące gotowania, cenę,
+ * informację, czy jest wegańskie, informację, czy jest bez laktozy i adres URL zdjęcia.
+ */
 public class Dish {
     private int id;
     private String name;

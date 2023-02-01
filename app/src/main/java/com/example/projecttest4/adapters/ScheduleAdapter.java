@@ -18,6 +18,9 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Klasa ScheduleAdapter wyświetla listę obiektów typu Schedule w aplikacji.
+ */
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHolder2>{
 
     Context context;
@@ -28,6 +31,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         this.schedules = schedules;
     }
 
+    /**
+     * Metoda jest odpowiedzialna za utworzenie widoku na jedną pozycję na liście.
+     */
     @NonNull
     @Override
     public ScheduleAdapter.ViewHolder2 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -35,6 +41,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         return new ViewHolder2(view);
     }
 
+    /**
+     * Metoda jest odpowiedzialna za ustawienie danych w widoku.
+     */
     @Override
     public void onBindViewHolder(@NonNull ScheduleAdapter.ViewHolder2 holder, int position) {
         Date scheduleDateSql = schedules.get(position).getDate();
@@ -43,11 +52,17 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         holder.hours.setText(schedules.get(position).getShift());
     }
 
+    /**
+     * Metoda zwraca liczbę elementów w liście.
+     */
     @Override
     public int getItemCount() {
         return schedules.size();
     }
 
+    /**
+     * Klasa jest wewnętrzną klasą, która przechowuje widoki (np. TextView) na jedną pozycję w liście.
+     */
     public class ViewHolder2 extends RecyclerView.ViewHolder {
 
         public TextView date;

@@ -19,7 +19,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-
+/**
+ * Klasa służy do odliczania czasu pracy użytkownika.
+ * Zawiera ona funkcjonalność pozwalającą na rozpoczęcie, zatrzymanie i zapisanie czasu pracy.
+ */
 public class TimeFragment extends Fragment implements MyTimer.TimerRuning{
 
     private int seconds;
@@ -38,6 +41,13 @@ public class TimeFragment extends Fragment implements MyTimer.TimerRuning{
     private static boolean isFirstRun = true;
 
 
+    /**
+     * W metodzie onCreateView znajdują się funkcje odpowiadające za działanie przycisków start i stop.
+     * @param inflater - inflater, który służy do wczytywania layoutu fragmentu.
+     * @param container - kontener, do którego zostanie dodany fragment.
+     * @param savedInstanceState - stan instancji, który może zostać wczytany przy ponownym tworzeniu fragmentu.
+     * @return view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -102,11 +112,22 @@ public class TimeFragment extends Fragment implements MyTimer.TimerRuning{
     }
 
 
+    /**
+     * Metoda ustawia aktualny czas na polu tekstowym timeView.
+     * @param remainSec - wartosc końcowa
+     * @param startSec - początek odlicznego czasu (sekundy)
+     */
     @Override
     public void onTimerChange(String remainSec, String startSec) {
         timeView.setText(startSec);
     }
 
+
+    /**
+     * Metoda ustawia czas na polu tekstowym timeView po zatrzymaniu odliczania.
+     * @param remainSec - wartosc końcowa
+     * @param startSec - początek odlicznego czasu (sekundy)
+     */
     @Override
     public void onTimerStopped(String remainSec, String startSec) {
         timeView.setText(startSec);

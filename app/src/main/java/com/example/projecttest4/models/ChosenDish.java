@@ -1,5 +1,11 @@
 package com.example.projecttest4.models;
 
+/**
+ * Klasa ChosenDish to model danych, który opisuje wybrane danie.
+ * Zawiera ona informacje takie jak id, nazwę, wartość do polecenia,
+ * notatki dotyczące gotowania, cenę, informację czy jest wegańskie i bez laktozy oraz adres URL zdjęcia.
+ * Klasa posiada także metody do pobierania i zwracania poszczególnych informacji jako ciągów znaków.
+ */
 public class ChosenDish {
     private int id;
     private String name;

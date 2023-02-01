@@ -11,6 +11,10 @@ import androidx.annotation.Nullable;
 
 import com.example.projecttest4.R;
 
+/**
+ * Klasa ScrollingFragment jest klasą dziedziczącą po klasie Fragment w Android.
+ * Klasa ta nadpisuje metodę onCreateView, która jest wywoływana podczas tworzenia widoku dla fragmentu.
+ */
 class ScrollingFragment extends Fragment {
 
     @Nullable

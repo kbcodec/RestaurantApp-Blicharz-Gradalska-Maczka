@@ -1,5 +1,8 @@
 package com.example.projecttest4.models;
 
+/**
+ * Klasa ShiftTypes opisuje typy zmian. Ma dwa pola - identyfikator i godziny zmiany.
+ */
 public class ShiftTypes {
     private int id;
     private String shiftHours;

@@ -39,6 +39,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+/*
+ * Klasa tworzy fragment kalendarza, w którym użytkownik może wybrać datę,
+ * wybrać pracownika z listy dostępnych i wybrać zmianę z listy dostępnych zmian.
+ */
 public class ScheduleFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
     private ImageButton calendarDialogButton;
@@ -53,16 +57,21 @@ public class ScheduleFragment extends Fragment implements DatePickerDialog.OnDat
     private RecyclerView.Adapter mAdapter;
 
     public ScheduleFragment() {
-
     }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
+    /**
+    * Metoda inicjuje komponenty interfejsu użytkownika, takie jak przyciski, pola tekstowe i spinner.
+    * Także jest wyświetlany adapter, który wyświetla wszystkie istniejące wpisy w kalendarzu.
+    * @param inflater - inflater, który służy do wczytywania layoutu fragmentu.
+    * @param container - kontener, do którego zostanie dodany fragment.
+    * @param savedInstanceState - stan instancji, który może zostać wczytany przy ponownym tworzeniu fragmentu.
+     */
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -140,6 +149,10 @@ public class ScheduleFragment extends Fragment implements DatePickerDialog.OnDat
         return view;
     }
 
+    /**
+     * Metoda wywołuje DatePickerDialog, który pozwala użytkownikowi wybrać datę z kalendarza.
+     * @param v - widok
+     */
     private void showDatePickerDialog(View v) {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 v.getContext(),
@@ -151,6 +164,13 @@ public class ScheduleFragment extends Fragment implements DatePickerDialog.OnDat
         datePickerDialog.show();
     }
 
+    /**
+     * W metodzie następuje aktualizacja tekstu wyświetlającego wybraną datę.
+     * @param view - obiekt typu "DatePicker", który jest wywoływany w momencie ustawiania daty.
+     * @param year - rok, który został wybrany w kalendarzu.
+     * @param month- miesiąc, który został wybrany w kalendarzu.
+     * @param dayOfMonth  - dzień miesiąca, który został wybrany w kalendarzu.
+     */
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         String dateString = year + "-" + month + 1 + "-" + dayOfMonth;
@@ -159,7 +179,10 @@ public class ScheduleFragment extends Fragment implements DatePickerDialog.OnDat
     }
 
 
-
+    /**
+     * Metoda służy do określenia, który widok ma być wyświetlony w zależności od roli użytkownika w systemie
+     * @param acct - dane konta googlowskiego
+     */
     private int adjustScheduleFragment (GoogleSignInAccount acct) {
         UserController uc = new UserController();
         User userFetchByEmail = uc.getUser(acct.getEmail());
@@ -176,6 +199,11 @@ public class ScheduleFragment extends Fragment implements DatePickerDialog.OnDat
         return userPosition;
     }
 
+    /**
+     * Metoda zwraca listę wszystkich adresów e-mail użytkowników.
+     * @return emails - lista e-maili
+     * @throws SQLException
+     */
     private ArrayList<String> adjustListOfUsers() throws SQLException {
         UserController uc = new UserController();
         ArrayList<User> allUsers = uc.getUsers();
@@ -189,6 +217,11 @@ public class ScheduleFragment extends Fragment implements DatePickerDialog.OnDat
         return emails;
     }
 
+    /**
+     * Metoda służy do przygotowania listy typów zmian w formie listy ciągów znaków.
+     * @return shifts - lista zmian pracownikow
+     * @throws SQLException
+     */
     private ArrayList<String> adjustListOfShifts() throws SQLException {
         ShiftsTypesController sc = new ShiftsTypesController();
         ArrayList<ShiftTypes> allShifts = sc.getShiftsTypes();

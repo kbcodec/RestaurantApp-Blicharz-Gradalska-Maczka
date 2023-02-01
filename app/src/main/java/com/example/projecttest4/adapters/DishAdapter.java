@@ -31,6 +31,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * Klasa DishAdapter wyświetla listę dań w aplikacji.
+ */
 public class DishAdapter extends RecyclerView.Adapter<DishAdapter.ViewHolder> {
 
     private MenuViewInterface menuViewInterface;
@@ -54,6 +57,9 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.ViewHolder> {
         return new ViewHolder(view, menuViewInterface);
     }
 
+    /**
+     * Metoda onBindViewHolder jest wywoływana, gdy widok potrzebuje wyświetlenia danych w odpowiednim elemencie.
+     */
     @Override
     public void onBindViewHolder(@NonNull DishAdapter.ViewHolder holder, int position) {
         holder.tvDishName.setText(mDishes.get(position).getName());
@@ -65,11 +71,18 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.ViewHolder> {
         }
     }
 
+    /**
+     * Metoda zwraca liczbę elementów w sekwencji dań.
+     * @return zwraca liczbę elementów w sekwencji dań
+     */
     @Override
     public int getItemCount() {
         return mDishes.size();
     }
 
+    /**
+     * Klasa wewnętrzna ViewHolder zawiera odwołania do pól widoku, takich jak nazwa dania i ikony,
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView tvDishName;

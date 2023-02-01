@@ -11,11 +11,20 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+/**
+ * Klasa DishService jest klasą odpowiedzialną za łączenie się i pobieranie danych z bazy danych dotyczących potraw
+ */
 public class DishService {
 
     private Connection connection;
     private DBRestaurantConnect restaurantConnect = new DBRestaurantConnect();
 
+    /**
+     * Metoda zwraca listę wszystkich potraw w bazie danych.
+     * Pobiera dane za pomocą zapytania SQL i tworzy listę obiektów klasy Dish.
+     * @return listOfAllDishes - listę obiektów klasy Dish
+     * @throws SQLException
+     */
     public ArrayList<Dish> getAllDishes () throws SQLException {
         connection = restaurantConnect.connectToDB();
         String query = "select d.dish_ID, d.nameDish, d.worthToRecommend, d.cookingNotes, d.price, d.isVegan, d.isLactoseFree, i.image_link " +
@@ -41,6 +50,13 @@ public class DishService {
         return listOfAllDishes;
     }
 
+    /**
+     * Metoda zwraca jedną potrawę o danym identyfikatorze.
+     * Pobiera dane za pomocą zapytania SQL i tworzy obiekt klasy Dish o podanym id
+     * @param id - id konkretnego dania
+     * @return dish - obiekt klasy Dish
+     * @throws SQLException
+     */
     public Dish getDish(int id) throws SQLException {
         connection = restaurantConnect.connectToDB();
         String query = "SELECT * FROM DISHES WHERE dish_ID = ?";

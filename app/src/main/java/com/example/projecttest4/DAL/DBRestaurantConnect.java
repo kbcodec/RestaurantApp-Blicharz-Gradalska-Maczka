@@ -7,8 +7,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/*
+    Klasa reprezentuje połączenie z bazą danych za pomocą biblioteki JDBC
+ */
 public class DBRestaurantConnect {
 
+    /*
+        Metoda ustanawia połączenie z bazą danych i zwraca obiekt typu Connection
+     */
     @SuppressLint("NewApi")
     public Connection connectToDB() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

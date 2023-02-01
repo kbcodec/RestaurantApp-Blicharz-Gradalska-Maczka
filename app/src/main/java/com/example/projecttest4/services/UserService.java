@@ -12,11 +12,19 @@ import java.util.ArrayList;
 
 import javax.xml.transform.Result;
 
+/**
+ * Klasa UserService jest klasą odpowiedzialną za łączenie się i pobieranie danych z bazy danych dotyczących użytkowników- tabela EMPLOYEES
+ */
 public class UserService {
 
     private Connection connection;
     private DBRestaurantConnect restaurantConnect = new DBRestaurantConnect();
 
+    /**
+     * Metoda pobiera listę wszystkich użytkowników z bazy danych i zwraca ją w formie listy obiektów typu User
+     * @return listOfAllUsers - lista obiektów typu User
+     * @throws SQLException
+     */
     public ArrayList<User> getAllUsers() throws SQLException {
         connection = restaurantConnect.connectToDB();
         String query = "SELECT * FROM EMPLOYEES";
@@ -37,6 +45,12 @@ public class UserService {
         return listOfAllUsers;
     }
 
+    /**
+     * Metoda pobiera dane pojedynczego użytkownika z bazy danych na podstawie adresu email i zwraca obiekt typu User
+     * @param email - dany adres e-mail
+     * @return user - obiekt typu User
+     * @throws SQLException
+     */
     public User getUser(String email) throws SQLException {
         connection = restaurantConnect.connectToDB();
         String query = "SELECT * FROM EMPLOYEES WHERE email = ?";

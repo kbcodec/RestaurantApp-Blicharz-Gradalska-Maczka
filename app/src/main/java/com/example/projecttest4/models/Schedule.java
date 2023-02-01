@@ -2,6 +2,10 @@ package com.example.projecttest4.models;
 
 import java.sql.Date;
 
+/**
+ * Klasa Schedule to model danych, który odwzorowuje table Schedule_Work z bazy danych
+ * Przechowuje informacje o dacie i zmianie.
+ */
 public class Schedule {
     private Date date;
     private String shift;
