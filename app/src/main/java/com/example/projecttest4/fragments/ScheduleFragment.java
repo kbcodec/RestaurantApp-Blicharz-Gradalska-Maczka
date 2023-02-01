@@ -1,9 +1,12 @@
 package com.example.projecttest4.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +21,12 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.example.projecttest4.R;
+import com.example.projecttest4.adapters.ScheduleAdapter;
 import com.example.projecttest4.controllers.ScheduleController;
 import com.example.projecttest4.controllers.ScheduleEmployeeController;
 import com.example.projecttest4.controllers.ShiftsTypesController;
 import com.example.projecttest4.controllers.UserController;
+import com.example.projecttest4.models.Schedule;
 import com.example.projecttest4.models.ShiftTypes;
 import com.example.projecttest4.models.User;
 import com.example.projecttest4.services.ScheduleEmployeeService;
@@ -32,6 +37,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class ScheduleFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
@@ -42,8 +48,9 @@ public class ScheduleFragment extends Fragment implements DatePickerDialog.OnDat
     private Button addToScheduleButton;
     private Date date;
     private int userId;
-
-
+    private ArrayList<Schedule> mSchedules;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
 
     public ScheduleFragment() {
 
@@ -56,6 +63,7 @@ public class ScheduleFragment extends Fragment implements DatePickerDialog.OnDat
 
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,6 +78,19 @@ public class ScheduleFragment extends Fragment implements DatePickerDialog.OnDat
         addToScheduleButton = view.findViewById(R.id.addToScheduleButton);
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(view.getContext());
+
+        ScheduleController sc = new ScheduleController();
+        User loggedUser = new UserController().getUser(acct.getEmail());
+        mSchedules = sc.getSchedulesForEmployee(loggedUser.getId());
+        System.out.println(mSchedules);
+        mRecyclerView = view.findViewById(R.id.scheduleRecycleView);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        mAdapter = new ScheduleAdapter(view.getContext(), mSchedules);
+        mRecyclerView.setAdapter(mAdapter);
+
+
+
 
         int numOfView = adjustScheduleFragment(acct);
         viewFlipper.setDisplayedChild(numOfView);
@@ -103,7 +124,6 @@ public class ScheduleFragment extends Fragment implements DatePickerDialog.OnDat
         calendarDialogButton.setOnClickListener(v -> showDatePickerDialog(v));
 
         addToScheduleButton.setOnClickListener(v -> {
-            ScheduleController sc = new ScheduleController();
             ScheduleEmployeeController sec = new ScheduleEmployeeController();
             User u = new UserController().getUser(String.valueOf(chooseWorkerSpinner.getSelectedItem()));
             if(date != null && chooseShiftSpinner.getSelectedItemPosition() != -1 && chooseWorkerSpinner.getSelectedItemPosition() != -1)
