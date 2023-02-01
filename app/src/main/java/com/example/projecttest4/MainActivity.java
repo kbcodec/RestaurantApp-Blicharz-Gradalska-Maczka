@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         replaceFragment(new MenuFragment());
 
+        getSupportActionBar().setTitle("RestaurantApp");
+
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 
             switch (item.getItemId()) {
